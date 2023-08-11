@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.felipe.fmconfeitaria.dto.CategoriaDTO;
 import com.felipe.fmconfeitaria.entities.Categoria;
@@ -21,12 +22,13 @@ public class CategoriaService {
 	@Autowired
 	private CategoriaRepository categoriaRepository;
 	
+	@Transactional
 	public Categoria find(Long id) {
 		Optional<Categoria> obj = categoriaRepository.findById(id);
 		return obj.orElseThrow(()-> new ObjectNotFoundException(
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + Categoria.class.getName() ));
 	}
-	
+	@Transactional
 	public Categoria insert(Categoria obj) {
 		obj.setId(null);
 		return categoriaRepository.save(obj);
@@ -48,11 +50,11 @@ public class CategoriaService {
 			throw new DataIntegrityException("Não é possível excluir uma cateogria que possui produtos!");
 		}
 	}
-	
+	@Transactional
 	public List<Categoria> findAll(){
 		return categoriaRepository.findAll();
 	}
-	
+	@Transactional
 	public Page<Categoria> findPage(Integer page, Integer linesPerPage, 
 			String orderBy, String direction){
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, 
