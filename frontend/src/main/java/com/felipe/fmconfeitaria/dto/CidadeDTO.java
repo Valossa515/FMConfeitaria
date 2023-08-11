@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import org.hibernate.validator.constraints.Length;
 
+import com.felipe.fmconfeitaria.entities.Cidade;
+
 import jakarta.validation.constraints.NotNull;
 
 public class CidadeDTO implements Serializable{
@@ -21,6 +23,12 @@ public class CidadeDTO implements Serializable{
 	public CidadeDTO(Long id, String nome) {
 		Id = id;
 		this.nome = nome;
+	}
+	
+	public CidadeDTO(Cidade obj)
+	{
+		Id = obj.getId();
+		nome = obj.getNome();
 	}
 
 	public Long getId() {
