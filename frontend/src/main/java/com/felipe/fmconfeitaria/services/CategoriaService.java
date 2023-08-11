@@ -25,8 +25,11 @@ public class CategoriaService {
 	@Transactional
 	public Categoria find(Long id) {
 		Optional<Categoria> obj = categoriaRepository.findById(id);
-		return obj.orElseThrow(()-> new ObjectNotFoundException(
-				"Objeto não encontrado! Id: " + id + ", Tipo: " + Categoria.class.getName() ));
+		Categoria categoria = obj.orElseThrow(() -> new ObjectNotFoundException(
+		        "Objeto não encontrado! Id: " + id + ", Tipo: " + Categoria.class.getName()));
+		    // Forçar o carregamento da coleção de produtos dentro do contexto transacional
+		    categoria.getProdutos().size();
+		    return categoria;
 	}
 	@Transactional
 	public Categoria insert(Categoria obj) {
